@@ -13,6 +13,7 @@ int main() {
     Polinomio pol;
     real_t raiz = 0.0;
     real_t erro = 0.0;
+    double tempo = 0.0;
 
     scanf("%d", &pol.grau);  // le o grau do polinomio
     pol.p = (real_t*)malloc((pol.grau + 1) * sizeof(real_t)); // aloca o vetor de coeficientes
@@ -26,14 +27,18 @@ int main() {
     for (int i = 1; i < 4; i++) {
         it = 0;
         raiz = 0.0;
+        tempo = timestamp();
         erro = bisseccao(pol, a, b, i, &it, &raiz, tipoCalculo);
-        printf("bissec <raiz: %.15lf> <criterio(%d): %lf> <it: %d>\n", raiz, i, erro, it);
+        tempo = timestamp() - tempo;
+        printf("bissec <raiz: %.15lf> <criterio(%d): %lf> <it: %d> <tempo: %f>\n", raiz, i, erro, it, tempo);
     }
     for (int i = 1; i < 4; i++) {
         it = 0;
         raiz = 0.0;
+        tempo = timestamp();
         erro = newtonRaphson(pol, a, i, &it, &raiz, tipoCalculo);
-        printf("newton <raiz: %.15lf> <criterio(%d): %lf> <it: %d>\n", raiz, i, erro, it);
+        tempo = timestamp() - tempo;
+        printf("newton <raiz: %.15lf> <criterio(%d): %lf> <it: %d> <tempo: %f>\n", raiz, i, erro, it, tempo);
     }
 
     tipoCalculo = 1;  // tipoCalculo = 1 -> lento
@@ -42,15 +47,19 @@ int main() {
     for (int i = 1; i < 4; i++) {
         it = 0;
         raiz = 0.0;
+        tempo = timestamp();
         erro = bisseccao(pol, a, b, i, &it, &raiz, tipoCalculo);
-        printf("bissec <raiz: %.15lf> <criterio(%d): %lf> <it: %d>\n", raiz, i, erro, it);
+        tempo = timestamp() - tempo;
+        printf("bissec <raiz: %.15lf> <criterio(%d): %lf> <it: %d> <tempo: %f>\n", raiz, i, erro, it, tempo);
     }
 
     for (int i = 1; i < 4; i++) {
         it = 0;
         raiz = 0.0;
+        tempo = timestamp();
         erro = newtonRaphson(pol, a, i, &it, &raiz, tipoCalculo);
-        printf("newton <raiz: %.15lf> <criterio(%d): %lf> <it: %d>\n", raiz, i, erro, it);
+        tempo = timestamp() - tempo;
+        printf("newton <raiz: %.15lf> <criterio(%d): %lf> <it: %d> <tempo: %f>\n", raiz, i, erro, it, tempo);
     }
     return 0;
 }

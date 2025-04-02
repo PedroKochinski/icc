@@ -52,7 +52,7 @@ real_t newtonRaphson(Polinomio p, real_t x0, int criterioParada, int *it, real_t
             parada = 1;
             return erro;  // iterações excedidas, retorna o erro
         }
-        if ((criterioParada == 1) && (*it > 2) && (fabs(x0 - (*raiz)) < 0.000001)) {  // criterio 1 - erro absoluto entre xk e xk-1
+        if ((criterioParada == 1) && (*it > 2) && (fabs(x0 - (*raiz)) < EPS)) {  // criterio 1 - erro absoluto entre xk e xk-1
             parada = 1;
             return erro;
         }
@@ -60,7 +60,7 @@ real_t newtonRaphson(Polinomio p, real_t x0, int criterioParada, int *it, real_t
             parada = 1;
             return erro;
         }
-        if (criterioParada == 3 && (*it > 2) && calcula_diferenca_ulp(x0, *raiz) <= 2) {  // criterio 3 - ULP's entre xk e xk-1 <= 2
+        if (criterioParada == 3 && (*it > 2) && calcula_diferenca_ulp(x0, *raiz) <= ULPS) {  // criterio 3 - ULP's entre xk e xk-1 <= 2
             parada = 1;
             return erro;
         }
