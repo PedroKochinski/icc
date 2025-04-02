@@ -50,17 +50,14 @@ real_t newtonRaphson(Polinomio p, real_t x0, int criterioParada, int *it, real_t
 
         if (*it >= MAXIT) {
             parada = 1;
-            // printf("Número máximo de iterações atingido\n");
             return erro;  // iterações excedidas, retorna o erro
         }
         if ((criterioParada == 1) && (*it > 2) && (fabs(x0 - (*raiz)) < 0.000001)) {  // criterio 1 - erro absoluto entre xk e xk-1
             parada = 1;
-            // printf("Erro absoluto entre xk (%lf) e xk-1 (%lf): %lf\n", ultimaRaiz, *raiz, fabs(ultimaRaiz - (*raiz)));
             return erro;
         }
         if (criterioParada == 2 && fabs(*raiz) <= DBL_EPSILON) {  // criterio 2 - se o valor da de p(x) é quae zero, i.e |p(x)| <= epsilon
             parada = 1;
-            // printf("Valor de p(x) é zero: %lf\n", fabs(calcRaizCandidata));
             return erro;
         }
         if (criterioParada == 3 && (*it > 2) && calcula_diferenca_ulp(x0, *raiz) <= 2) {  // criterio 3 - ULP's entre xk e xk-1 <= 2
@@ -89,7 +86,6 @@ real_t bisseccao(Polinomio p, real_t a, real_t b, int criterioParada, int *it, r
         ultimaRaiz = *raiz;
         *raiz = (a + b) / 2;  // calcula a raiz candidata, o ponto medio do intervalo
         erro = (fabs(ultimaRaiz - *raiz) / ultimaRaiz) * 100;
-        // printf("testando a raiz candidata: %lf\n", *raiz);
         if (tipoCalculo == 0) {
             calcPolinomio_rapido(p, a, &calcA, NULL);
             calcPolinomio_rapido(p, b, &calcB, NULL);
@@ -101,33 +97,26 @@ real_t bisseccao(Polinomio p, real_t a, real_t b, int criterioParada, int *it, r
         }
 
         if (calcA * calcRaizCandidata < 0) {
-            // printf("b recebe raizCandidata, pois a raiz está no intervalo [a, raiz]\n");
             b = *raiz;  // B recebe raizCandidata, pois a raiz está no intervalo [a, raiz]
         } else if (calcA * calcRaizCandidata > 0) {
-            // printf("a recebe raizCandidata, pois a raiz está no intervalo [raiz, b]\n");
             a = *raiz;  // A recebe raizCandidata, pois a raiz está no intervalo [raiz, b]
         } else {
-            // printf("raiz encontrada\n");
             parada = 1;
             return erro;  // achou a raiz, retorna o erro
         }
 
         (*it)++;
-        // printf("Iteração %d\n", *it);
 
         if (*it >= MAXIT) {
             parada = 1;
-            // printf("Número máximo de iterações atingido\n");
             return erro;  // iterações excedidas, retorna o erro
         }
         if ((criterioParada == 1) && (*it > 2) && (fabs(ultimaRaiz - (*raiz)) < 0.000001)) {  // criterio 1 - erro absoluto entre xk e xk-1
             parada = 1;
-            // printf("Erro absoluto entre xk (%lf) e xk-1 (%lf): %lf\n", ultimaRaiz, *raiz, fabs(ultimaRaiz - (*raiz)));
             return erro;
         }
         if (criterioParada == 2 && fabs(calcRaizCandidata) <= DBL_EPSILON) {  // criterio 2 - se o valor da de p(x) é quae zero, i.e |p(x)| <= epsilon
             parada = 1;
-            // printf("Valor de p(x) é zero: %lf\n", fabs(calcRaizCandidata));
             return erro;
         }
         if (criterioParada == 3 && (*it > 2) && calcula_diferenca_ulp(ultimaRaiz, *raiz) <= 2) {  // criterio 3 - ULP's entre xk e xk-1 <= 2
