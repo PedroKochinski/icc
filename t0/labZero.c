@@ -1,7 +1,7 @@
 #include <float.h>
 #include <math.h>
 #include <stdio.h>
-
+#include <fenv.h>
 #include "ZeroFuncao.h"
 #include "utils.h"
 
@@ -21,8 +21,8 @@ int main() {
         scanf("%lf", &pol.p[i]);  // le os coeficientes do polinomio
     }
     scanf("%lf %lf", &a, &b);  // intervalo onde está uma das raizes.
+    fesetround(FE_DOWNWARD);
 
-    
     printf("RAPIDO\n\n");
     for (int i = 1; i < 4; i++) {
         it = 0;
@@ -30,7 +30,7 @@ int main() {
         tempo = timestamp();
         erro = bisseccao(pol, a, b, i, &it, &raiz, tipoCalculo);
         tempo = timestamp() - tempo;
-        printf("bissec <raiz: %.15lf> <criterio(%d): %lf> <it: %d> <tempo: %f>\n", raiz, i, erro, it, tempo);
+        printf("bissec %.15e %.15e %d %.8e\n", raiz, erro, it, tempo);
     }
     for (int i = 1; i < 4; i++) {
         it = 0;
@@ -38,9 +38,8 @@ int main() {
         tempo = timestamp();
         erro = newtonRaphson(pol, a, i, &it, &raiz, tipoCalculo);
         tempo = timestamp() - tempo;
-        printf("newton <raiz: %.15lf> <criterio(%d): %lf> <it: %d> <tempo: %f>\n", raiz, i, erro, it, tempo);
+        printf("newton %.15e %.15e %d %.8e\n", raiz, erro, it, tempo);
     }
-
     tipoCalculo = 1;  // tipoCalculo = 1 -> lento
     printf("\n");
     printf("LENTO\n\n");
@@ -50,7 +49,8 @@ int main() {
         tempo = timestamp();
         erro = bisseccao(pol, a, b, i, &it, &raiz, tipoCalculo);
         tempo = timestamp() - tempo;
-        printf("bissec <raiz: %.15lf> <criterio(%d): %lf> <it: %d> <tempo: %f>\n", raiz, i, erro, it, tempo);
+        // PARA DEBUG: printf("bissec <raiz: %.15e> <criterio(%d): %.15e> <it: %d> <tempo: %.8e>\n", raiz, i, erro, it, tempo);
+        printf("bissec %.15e %.15e %d %.8e\n", raiz, erro, it, tempo);
     }
 
     for (int i = 1; i < 4; i++) {
@@ -59,7 +59,7 @@ int main() {
         tempo = timestamp();
         erro = newtonRaphson(pol, a, i, &it, &raiz, tipoCalculo);
         tempo = timestamp() - tempo;
-        printf("newton <raiz: %.15lf> <criterio(%d): %lf> <it: %d> <tempo: %f>\n", raiz, i, erro, it, tempo);
+        printf("newton %.15e %.15e %d %.8e\n", raiz, erro, it, tempo);
     }
     return 0;
 }
